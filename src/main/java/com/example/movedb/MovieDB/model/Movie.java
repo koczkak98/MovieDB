@@ -1,13 +1,31 @@
 package com.example.movedb.MovieDB.model;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "movies")
 public class Movie {
 
 
+    @Id
+    @Column(name = "id")
+
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer movieID;
+
+    @Column(name = "movie_name")
     private String title;
+
+    @Column(name = "movie_category")
     private String category;
+
+    @Column(name = "movie_description")
     private String description;
+
+    @Column(name = "movie_ageLimit")
     private int ageLimit;
+
+
 
 
     public Movie() {

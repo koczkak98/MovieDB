@@ -4,7 +4,7 @@ import com.example.movedb.MovieDB.model.Movie;
 
 import java.sql.*;
 
-public class MySqlHandler {
+public class JDBC_SQLHandler {
 
     private static final String DB_URL = "jdbc:mysql://localhost:3306/movies?serverTimezone=UTC";
     private static final String DB_USER = "root";
