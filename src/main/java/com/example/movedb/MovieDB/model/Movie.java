@@ -25,7 +25,10 @@ public class Movie {
     @Column(name = "movie_ageLimit")
     private int ageLimit;
 
-
+    /**
+     * @OneToMany(mappedBy = "ratings")
+     * private List<Rating> ratingsOfMovies;
+     */
 
 
     public Movie() {
