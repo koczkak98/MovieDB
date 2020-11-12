@@ -1,6 +1,8 @@
 package com.example.movedb.MovieDB.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "movies")
@@ -25,19 +27,23 @@ public class Movie {
     @Column(name = "movie_ageLimit")
     private int ageLimit;
 
-    /**
-     * @OneToMany(mappedBy = "ratings")
-     * private List<Rating> ratingsOfMovies;
-     */
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(
+            name = "movies_rating_mapping",
+            joinColumns = @JoinColumn(name = "movieId"))
+    @Column(name = "ratingId")
+    private List<Integer> ratingIDs;
+
 
 
     public Movie() {
-        super();
+        this.ratingIDs = new ArrayList<Integer>();
     }
 
     public Movie(Integer movieID) {
         super();
         this.movieID = movieID;
+        this.ratingIDs = new ArrayList<Integer>();
     }
 
 
@@ -79,5 +85,13 @@ public class Movie {
 
     public void setAgeLimit(int ageLimit) {
         this.ageLimit = ageLimit;
+    }
+
+    public List<Integer> getRatingIDs() {
+        return ratingIDs;
+    }
+
+    public void setRatingIDs(List<Integer> ratingIDs) {
+        this.ratingIDs = ratingIDs;
     }
 }
