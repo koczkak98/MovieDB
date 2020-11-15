@@ -34,16 +34,21 @@ public class Movie {
     @Column(name = "ratingId")
     private List<Integer> ratingIDs;
 
+    @Transient
+    private List<Rating> ratings;
+
 
 
     public Movie() {
         this.ratingIDs = new ArrayList<Integer>();
+        this.ratings = new ArrayList<Rating>();
     }
 
     public Movie(Integer movieID) {
         super();
         this.movieID = movieID;
         this.ratingIDs = new ArrayList<Integer>();
+        this.ratings = new ArrayList<Rating>();
     }
 
 
@@ -93,5 +98,18 @@ public class Movie {
 
     public void setRatingIDs(List<Integer> ratingIDs) {
         this.ratingIDs = ratingIDs;
+    }
+
+    public void addRating (Rating rating)
+    {
+        this.ratings.add(rating);
+    }
+
+    public List<Rating> getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(List<Rating> ratings) {
+        this.ratings = ratings;
     }
 }

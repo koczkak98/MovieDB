@@ -5,6 +5,7 @@ import java.util.List;
 
 public class RatingInfo {
 
+    private Integer movieId;
     private List<Rating> ratings;
 
     public RatingInfo() {
@@ -17,5 +18,10 @@ public class RatingInfo {
 
     public void setRatings(List<Rating> ratings) {
         this.ratings = ratings;
+    }
+
+    public void addRatings (Rating rating)
+    {
+        this.ratings.add(rating);
     }
 }
