@@ -105,6 +105,8 @@ public class Movie {
         this.ratings.add(rating);
     }
 
+    public void removeRating (Rating rating) { this.ratings.remove(rating); }
+
     public List<Rating> getRatings() {
         return ratings;
     }

@@ -45,15 +45,36 @@ public class MovieDBController {
 
     @GetMapping("/deletemovie/{movieid}")
     public Movie deleteMovieById (
-            @PathVariable("movieid") int movieID)
-    {
-        RestTemplate restTemplate = new RestTemplate();
-        RatingInfo ratingDelete = restTemplate.getForObject("http://localhost:8082/deleterating/" + movieID, RatingInfo.class);
-
+            @PathVariable("movieid") int movieID) throws SQLException {
         Hibernate_SQLHandler hibernate_sqlHandler = new Hibernate_SQLHandler();
+        Movie movie = getMovieByID(movieID);
+
+
+        /** DELETE MRM */
+        System.out.println("DELETE MRM");
+        JDBC_SQLHandler jdbc_sqlHandler = new JDBC_SQLHandler();
+        jdbc_sqlHandler.deletemoviIdFromMRM(movieID);
+
+        /** DELETE RATING */
+        System.out.println("DELETE RATING");
+        List<Integer> ratingIDs = movie.getRatingIDs();
+        RestTemplate restTemplate = new RestTemplate();
+
+        for(int i = 0; i < ratingIDs.size(); i++) {
+            Rating ratingDelete = restTemplate.getForObject("http://localhost:8082/deleterating/" + ratingIDs.get(i), Rating.class);
+
+            movie.removeRating(ratingDelete);
+        }
+
+        /** DELETE MOVIE */
+        System.out.println("01 Delete movie");
         hibernate_sqlHandler.open();
-        Movie movie = hibernate_sqlHandler.deleteMovieById(movieID);
+        System.out.println("02 Delete movie");
+        movie = hibernate_sqlHandler.deleteMovieById(movieID);
+        System.out.println("03 Delete movie");
         hibernate_sqlHandler.close();
+        System.out.println("05 Delete movie");
+
 
         return movie;
     }

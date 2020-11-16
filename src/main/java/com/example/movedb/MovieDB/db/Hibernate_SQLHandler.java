@@ -8,6 +8,11 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
+
+import javax.persistence.Query;
+import javax.transaction.Transactional;
+import java.sql.SQLException;
+
 public class Hibernate_SQLHandler {
 
     private SessionFactory sessionFactory;
@@ -39,31 +44,28 @@ public class Hibernate_SQLHandler {
         return movie;
     }
 
-    public Movie deleteMovieById (int movieID)
-    {
-        Movie movie = new Movie(movieID);
+    /** Delete */
+    public Movie deleteMovieById (int movieID) throws SQLException {
+        /** 00 delete from umm */
+        JDBC_SQLHandler jdbc_sqlHandler = new JDBC_SQLHandler();
+        jdbc_sqlHandler.deletemoviIdFromUMM(movieID);
 
-        /** Open Session and Begin Transaction */
+
+        /** 01 db */
+        Movie movie = getMovieById(movieID);
+
         Session session = sessionFactory.openSession();
-        try {
-            session.beginTransaction();
 
-            movie = session.get(Movie.class, movieID);
-
-            session.delete(movie);
-
-            /** Execute transaction and Close Session */
-            session.getTransaction().commit();
-            session.close();
-        }
-        catch (HibernateException e) {
-            e.printStackTrace();
-            session.getTransaction().rollback();
-        }
+        /** 02 delete movie */
+        session.beginTransaction();
+        session.delete(movie);
+        session.getTransaction().commit();
+        session.close();
 
         return movie;
     }
 
+    /** Update movie */
     public Movie updateMovieById (int movieID, String cat)
     {
         Movie movie = new Movie(movieID);
