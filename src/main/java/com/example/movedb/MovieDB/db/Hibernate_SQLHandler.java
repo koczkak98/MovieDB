@@ -53,7 +53,6 @@ public class Hibernate_SQLHandler {
 
         /** 01 db */
         Movie movie = getMovieById(movieID);
-
         Session session = sessionFactory.openSession();
 
         /** 02 delete movie */
